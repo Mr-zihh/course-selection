@@ -57,6 +57,14 @@
             color: #0f172a;
             display: flex;
             align-items: center;
+            justify-content: space-between;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .card h2 .title-text {
+            display: flex;
+            align-items: center;
             gap: 0.5rem;
         }
 
@@ -122,6 +130,19 @@
             background: #b91c1c;
         }
 
+        .btn-clear-all {
+            background: transparent;
+            color: #dc2626;
+            border: 1px solid #dc2626;
+            padding: 0.35rem 0.8rem;
+            font-size: 0.82rem;
+            font-weight: 600;
+        }
+
+        .btn-clear-all:hover {
+            background: #fee2e2;
+        }
+
         /* Course List */
         .course-item {
             background: #f8fafc;
@@ -180,6 +201,20 @@
             flex-wrap: wrap;
         }
 
+        .save-note {
+            text-align: center;
+            font-size: 0.82rem;
+            color: #059669;
+            margin-bottom: 0.6rem;
+            min-height: 1.1rem;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .save-note.show {
+            opacity: 1;
+        }
+
         footer {
             text-align: center;
             padding: 1.5rem;
@@ -194,6 +229,9 @@
             input, select, button {
                 width: 100%;
             }
+            .card h2 {
+                justify-content: flex-start;
+            }
         }
     </style>
 </head>
@@ -206,9 +244,14 @@
 
 <div class="container">
 
+    <div class="save-note" id="saveNote">Saved ✓</div>
+
     <!-- ===================== ADD COURSE SECTION ===================== -->
     <div class="card">
-        <h2>➕ Add New Course + Faculty</h2>
+        <h2>
+            <span class="title-text">➕ Add New Course + Faculty</span>
+            <button class="btn-clear-all" onclick="clearCourses()">Clear all courses</button>
+        </h2>
 
         <div class="form-row">
             <input type="text" id="courseName" placeholder="Course name (e.g. Data Structures)">
@@ -230,7 +273,10 @@
 
     <!-- ===================== NEXT SEMESTER SECTION ===================== -->
     <div class="card">
-        <h2>📅 Next Semester Plan</h2>
+        <h2>
+            <span class="title-text">📅 Next Semester Plan</span>
+            <button class="btn-clear-all" onclick="clearPlan()">Clear plan</button>
+        </h2>
 
         <div class="semester-header">
             <input type="text" id="semNameInput" placeholder="Semester name (e.g. Spring 2027 / 5th Semester)" style="flex:1;">
@@ -252,51 +298,151 @@
 </div>
 
 <footer>
-    Personal Course Planner • Data is saved only in this browser (refresh will clear)
+    Personal Course Planner • Data is saved in this browser automatically (reload-safe)
 </footer>
 
 <script>
+    // ========== Storage keys ==========
+    const STORAGE_KEY_COURSES = 'coursePlanner_courses';
+    const STORAGE_KEY_SEMESTER = 'coursePlanner_semesterName';
+    const STORAGE_KEY_PLAN = 'coursePlanner_plan';
+
+    let courses = [];
+    let plan = [];
+    let semesterName = '';
+
+    // ========== Save / Load helpers ==========
+    function saveAll() {
+        try {
+            localStorage.setItem(STORAGE_KEY_COURSES, JSON.stringify(courses));
+            localStorage.setItem(STORAGE_KEY_PLAN, JSON.stringify(plan));
+            localStorage.setItem(STORAGE_KEY_SEMESTER, semesterName);
+            flashSaved();
+        } catch (e) {
+            console.error('Could not save to localStorage:', e);
+        }
+    }
+
+    function loadAll() {
+        try {
+            const c = localStorage.getItem(STORAGE_KEY_COURSES);
+            const p = localStorage.getItem(STORAGE_KEY_PLAN);
+            const s = localStorage.getItem(STORAGE_KEY_SEMESTER);
+
+            courses = c ? JSON.parse(c) : [];
+            plan = p ? JSON.parse(p) : [];
+            semesterName = s || '';
+        } catch (e) {
+            console.error('Could not load from localStorage:', e);
+            courses = [];
+            plan = [];
+            semesterName = '';
+        }
+    }
+
+    function flashSaved() {
+        const note = document.getElementById('saveNote');
+        note.textContent = 'Saved ✓';
+        note.classList.add('show');
+        clearTimeout(flashSaved._t);
+        flashSaved._t = setTimeout(() => note.classList.remove('show'), 1200);
+    }
+
+    // ========== Render ==========
+    function renderCourses() {
+        const list = document.getElementById('courseList');
+        list.innerHTML = '';
+
+        if (courses.length === 0) {
+            list.innerHTML = '<div class="empty">No courses added yet. Type above and click "Add Course".</div>';
+            return;
+        }
+
+        courses.forEach((c, index) => {
+            let stars = '';
+            for (let i = 1; i <= 5; i++) {
+                stars += i <= c.rating ? '★' : '☆';
+            }
+
+            const item = document.createElement('div');
+            item.className = 'course-item';
+            item.innerHTML = `
+                <div class="course-info">
+                    <div class="course-name">${escapeHtml(c.course)}</div>
+                    <div class="faculty-name">Faculty: ${escapeHtml(c.faculty || 'Not specified')}</div>
+                </div>
+                <div class="stars">${stars}</div>
+                <button class="btn-red" onclick="deleteCourse(${index})">Delete</button>
+            `;
+            list.appendChild(item);
+        });
+    }
+
+    function renderPlan() {
+        const list = document.getElementById('planList');
+        list.innerHTML = '';
+
+        if (plan.length === 0) {
+            list.innerHTML = '<div class="empty">No courses planned for next semester yet.</div>';
+            return;
+        }
+
+        plan.forEach((course, index) => {
+            const item = document.createElement('div');
+            item.className = 'course-item';
+            item.innerHTML = `
+                <div class="course-info">
+                    <div class="course-name">${escapeHtml(course)}</div>
+                </div>
+                <button class="btn-red" onclick="removeFromPlan(${index})">Remove</button>
+            `;
+            list.appendChild(item);
+        });
+    }
+
+    function renderSemesterName() {
+        const el = document.getElementById('semesterName');
+        el.textContent = semesterName ? '📌 ' + semesterName : 'Semester name not set yet';
+    }
+
+    function escapeHtml(str) {
+        const div = document.createElement('div');
+        div.textContent = str;
+        return div.innerHTML;
+    }
+
     // ========== Course + Faculty List ==========
     function addCourse() {
         const course = document.getElementById('courseName').value.trim();
         const faculty = document.getElementById('facultyName').value.trim();
-        const rating = document.getElementById('rating').value;
+        const rating = parseInt(document.getElementById('rating').value, 10);
 
         if (!course) {
             alert("Please enter a course name");
             return;
         }
 
-        const list = document.getElementById('courseList');
+        courses.push({ course, faculty, rating });
+        renderCourses();
+        saveAll();
 
-        // Remove empty message
-        if (list.querySelector('.empty')) {
-            list.innerHTML = '';
-        }
-
-        // Create stars
-        let stars = '';
-        for (let i = 1; i <= 5; i++) {
-            stars += i <= rating ? '★' : '☆';
-        }
-
-        const item = document.createElement('div');
-        item.className = 'course-item';
-        item.innerHTML = `
-            <div class="course-info">
-                <div class="course-name">${course}</div>
-                <div class="faculty-name">Faculty: ${faculty || 'Not specified'}</div>
-            </div>
-            <div class="stars">${stars}</div>
-            <button class="btn-red" onclick="this.parentElement.remove()">Delete</button>
-        `;
-
-        list.appendChild(item);
-
-        // Clear inputs
         document.getElementById('courseName').value = '';
         document.getElementById('facultyName').value = '';
         document.getElementById('rating').value = '5';
+    }
+
+    function deleteCourse(index) {
+        courses.splice(index, 1);
+        renderCourses();
+        saveAll();
+    }
+
+    function clearCourses() {
+        if (courses.length === 0) return;
+        if (!confirm('Sob course delete korte chao? Eita undo kora jabe na.')) return;
+        courses = [];
+        renderCourses();
+        saveAll();
     }
 
     // ========== Next Semester ==========
@@ -306,7 +452,9 @@
             alert("Please enter a semester name");
             return;
         }
-        document.getElementById('semesterName').textContent = "📌 " + name;
+        semesterName = name;
+        renderSemesterName();
+        saveAll();
         document.getElementById('semNameInput').value = '';
     }
 
@@ -316,25 +464,33 @@
             alert("Please enter a course name");
             return;
         }
-
-        const list = document.getElementById('planList');
-
-        if (list.querySelector('.empty')) {
-            list.innerHTML = '';
-        }
-
-        const item = document.createElement('div');
-        item.className = 'course-item';
-        item.innerHTML = `
-            <div class="course-info">
-                <div class="course-name">${course}</div>
-            </div>
-            <button class="btn-red" onclick="this.parentElement.remove()">Remove</button>
-        `;
-
-        list.appendChild(item);
+        plan.push(course);
+        renderPlan();
+        saveAll();
         document.getElementById('planCourse').value = '';
     }
+
+    function removeFromPlan(index) {
+        plan.splice(index, 1);
+        renderPlan();
+        saveAll();
+    }
+
+    function clearPlan() {
+        if (plan.length === 0 && !semesterName) return;
+        if (!confirm('Next semester plan ar semester name delete korte chao?')) return;
+        plan = [];
+        semesterName = '';
+        renderPlan();
+        renderSemesterName();
+        saveAll();
+    }
+
+    // ========== Init ==========
+    loadAll();
+    renderCourses();
+    renderPlan();
+    renderSemesterName();
 </script>
 
 </body>
