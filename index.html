@@ -123,6 +123,14 @@
             background: #047857;
         }
 
+        .btn-blue {
+            background: #2563eb;
+        }
+
+        .btn-blue:hover {
+            background: #1d4ed8;
+        }
+
         .btn-red {
             background: #dc2626;
             padding: 0.4rem 0.8rem;
@@ -146,7 +154,116 @@
             background: #fee2e2;
         }
 
-        /* Course List */
+        /* Course Group */
+        .course-group {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 1rem 1.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .course-group.highlight {
+            border: 2px solid #38bdf8;
+            box-shadow: 0 0 0 3px rgba(56,189,248,0.15);
+        }
+
+        .course-group-name {
+            font-weight: 700;
+            font-size: 1.15rem;
+            margin-bottom: 0.7rem;
+            color: #0f172a;
+        }
+
+        .faculty-row {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 0.7rem 1rem;
+            margin-bottom: 0.6rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+        }
+
+        .faculty-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .faculty-info {
+            flex: 1;
+            min-width: 160px;
+        }
+
+        .faculty-name {
+            font-weight: 600;
+            font-size: 0.98rem;
+            color: #1e293b;
+        }
+
+        .rating-block {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 0.1rem;
+        }
+
+        .stars {
+            color: #f59e0b;
+            font-size: 1.05rem;
+            letter-spacing: 1px;
+        }
+
+        .rating-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 0.1rem 0.5rem;
+            border-radius: 999px;
+        }
+
+        .rating-label.r5 { background: #dcfce7; color: #15803d; }
+        .rating-label.r4 { background: #dbeafe; color: #1d4ed8; }
+        .rating-label.r3 { background: #fef9c3; color: #854d0e; }
+        .rating-label.r2 { background: #ffedd5; color: #c2410c; }
+        .rating-label.r1 { background: #fee2e2; color: #b91c1c; }
+
+        .empty {
+            text-align: center;
+            color: #94a3b8;
+            padding: 1.5rem;
+            font-style: italic;
+        }
+
+        .search-row {
+            display: flex;
+            gap: 0.8rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .search-status {
+            font-size: 0.85rem;
+            color: #475569;
+            margin-bottom: 0.8rem;
+        }
+
+        /* Next Semester Section */
+        #semesterName {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #0f172a;
+        }
+
+        .semester-header {
+            display: flex;
+            gap: 0.8rem;
+            margin-bottom: 1.2rem;
+            flex-wrap: wrap;
+        }
+
         .course-item {
             background: #f8fafc;
             border: 1px solid #e2e8f0;
@@ -168,40 +285,6 @@
         .course-name {
             font-weight: 600;
             font-size: 1.05rem;
-            margin-bottom: 0.25rem;
-        }
-
-        .faculty-name {
-            color: #475569;
-            font-size: 0.9rem;
-        }
-
-        .stars {
-            color: #f59e0b;
-            font-size: 1.1rem;
-            letter-spacing: 1px;
-        }
-
-        .empty {
-            text-align: center;
-            color: #94a3b8;
-            padding: 1.5rem;
-            font-style: italic;
-        }
-
-        /* Next Semester Section */
-        #semesterName {
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-            color: #0f172a;
-        }
-
-        .semester-header {
-            display: flex;
-            gap: 0.8rem;
-            margin-bottom: 1.2rem;
-            flex-wrap: wrap;
         }
 
         .save-note {
@@ -226,7 +309,7 @@
         }
 
         @media (max-width: 600px) {
-            .form-row {
+            .form-row, .search-row {
                 flex-direction: column;
             }
             input, select, button {
@@ -234,6 +317,9 @@
             }
             .card h2 {
                 justify-content: flex-start;
+            }
+            .rating-block {
+                align-items: flex-start;
             }
         }
     </style>
@@ -249,6 +335,17 @@
 
     <div class="save-note" id="saveNote">Saved ✓</div>
 
+    <!-- ===================== SEARCH SECTION ===================== -->
+    <div class="card">
+        <h2><span class="title-text">🔍 Search Course</span></h2>
+        <div class="search-row">
+            <input type="text" id="searchInput" placeholder="Course name likho (e.g. ECN202)">
+            <button class="btn-blue" onclick="searchCourse()">Search</button>
+            <button onclick="clearSearch()">Clear</button>
+        </div>
+        <div class="search-status" id="searchStatus"></div>
+    </div>
+
     <!-- ===================== ADD COURSE SECTION ===================== -->
     <div class="card">
         <h2>
@@ -257,7 +354,7 @@
         </h2>
 
         <div class="form-row">
-            <input type="text" id="courseName" placeholder="Course name (e.g. Data Structures)">
+            <input type="text" id="courseName" placeholder="Course name (e.g. ECN202)">
             <input type="text" id="facultyName" placeholder="Faculty name (e.g. Dr. Rahman)">
             <select id="rating">
                 <option value="5">★★★★★ (Best / Easy)</option>
@@ -306,13 +403,17 @@
 
 <script>
     // ========== Storage keys ==========
-    const STORAGE_KEY_COURSES = 'coursePlanner_courses';
+    const STORAGE_KEY_COURSES = 'coursePlanner_courses_v2';
     const STORAGE_KEY_SEMESTER = 'coursePlanner_semesterName';
     const STORAGE_KEY_PLAN = 'coursePlanner_plan';
 
+    // courses: [{ name: 'ECN202', faculties: [{faculty, rating}, ...] }, ...]
     let courses = [];
     let plan = [];
     let semesterName = '';
+    let activeSearchTerm = '';
+
+    const RATING_LABELS = { 5: 'Best', 4: 'Very Good', 3: 'Average', 2: 'Hard', 1: 'Avoid' };
 
     // ========== Save / Load helpers ==========
     function saveAll() {
@@ -329,10 +430,23 @@
     function loadAll() {
         try {
             const c = localStorage.getItem(STORAGE_KEY_COURSES);
+            const oldC = localStorage.getItem('coursePlanner_courses'); // old flat format migration
             const p = localStorage.getItem(STORAGE_KEY_PLAN);
             const s = localStorage.getItem(STORAGE_KEY_SEMESTER);
 
-            courses = c ? JSON.parse(c) : [];
+            if (c) {
+                courses = JSON.parse(c);
+            } else if (oldC) {
+                // migrate old flat list [{course, faculty, rating}] into grouped format
+                const flat = JSON.parse(oldC);
+                courses = [];
+                flat.forEach(item => {
+                    addFacultyToCourses(item.course, item.faculty, item.rating, false);
+                });
+            } else {
+                courses = [];
+            }
+
             plan = p ? JSON.parse(p) : [];
             semesterName = s || '';
         } catch (e) {
@@ -351,34 +465,106 @@
         flashSaved._t = setTimeout(() => note.classList.remove('show'), 1200);
     }
 
+    function escapeHtml(str) {
+        const div = document.createElement('div');
+        div.textContent = str;
+        return div.innerHTML;
+    }
+
+    function normalizeName(name) {
+        return name.trim().toLowerCase().replace(/\s+/g, ' ');
+    }
+
+    // Adds a faculty entry into the matching course group (case-insensitive name match),
+    // creating the group if it doesn't exist. Keeps faculties sorted by rating desc.
+    function addFacultyToCourses(courseName, facultyName, rating, doSave = true) {
+        const key = normalizeName(courseName);
+        let group = courses.find(g => normalizeName(g.name) === key);
+
+        if (!group) {
+            group = { name: courseName.trim(), faculties: [] };
+            courses.push(group);
+        }
+
+        group.faculties.push({ faculty: facultyName.trim(), rating: parseInt(rating, 10) });
+        group.faculties.sort((a, b) => b.rating - a.rating);
+
+        if (doSave) saveAll();
+    }
+
     // ========== Render ==========
+    function ratingStars(rating) {
+        let stars = '';
+        for (let i = 1; i <= 5; i++) {
+            stars += i <= rating ? '★' : '☆';
+        }
+        return stars;
+    }
+
     function renderCourses() {
         const list = document.getElementById('courseList');
         list.innerHTML = '';
 
+        let visibleCourses = courses;
+        if (activeSearchTerm) {
+            const term = normalizeName(activeSearchTerm);
+            visibleCourses = courses.filter(g => normalizeName(g.name).includes(term));
+        }
+
         if (courses.length === 0) {
             list.innerHTML = '<div class="empty">No courses added yet. Type above and click "Add Course".</div>';
+            updateSearchStatus(visibleCourses);
             return;
         }
 
-        courses.forEach((c, index) => {
-            let stars = '';
-            for (let i = 1; i <= 5; i++) {
-                stars += i <= c.rating ? '★' : '☆';
-            }
+        if (activeSearchTerm && visibleCourses.length === 0) {
+            list.innerHTML = '<div class="empty">"' + escapeHtml(activeSearchTerm) + '" — ei name-e kono course pawa jayni.</div>';
+            updateSearchStatus(visibleCourses);
+            return;
+        }
 
-            const item = document.createElement('div');
-            item.className = 'course-item';
-            item.innerHTML = `
-                <div class="course-info">
-                    <div class="course-name">${escapeHtml(c.course)}</div>
-                    <div class="faculty-name">Faculty: ${escapeHtml(c.faculty || 'Not specified')}</div>
-                </div>
-                <div class="stars">${stars}</div>
-                <button class="btn-red" onclick="deleteCourse(${index})">Delete</button>
+        visibleCourses.forEach((group) => {
+            const groupIndex = courses.indexOf(group);
+            const groupEl = document.createElement('div');
+            groupEl.className = 'course-group' + (activeSearchTerm ? ' highlight' : '');
+
+            let facultyHtml = '';
+            group.faculties.forEach((f, fIndex) => {
+                facultyHtml += `
+                    <div class="faculty-row">
+                        <div class="faculty-info">
+                            <div class="faculty-name">${escapeHtml(f.faculty || 'Not specified')}</div>
+                        </div>
+                        <div class="rating-block">
+                            <div class="stars">${ratingStars(f.rating)}</div>
+                            <div class="rating-label r${f.rating}">${RATING_LABELS[f.rating] || ''}</div>
+                        </div>
+                        <button class="btn-red" onclick="deleteFaculty(${groupIndex}, ${fIndex})">Delete</button>
+                    </div>
+                `;
+            });
+
+            groupEl.innerHTML = `
+                <div class="course-group-name">${escapeHtml(group.name)}</div>
+                ${facultyHtml}
             `;
-            list.appendChild(item);
+            list.appendChild(groupEl);
         });
+
+        updateSearchStatus(visibleCourses);
+    }
+
+    function updateSearchStatus(visibleCourses) {
+        const status = document.getElementById('searchStatus');
+        if (!activeSearchTerm) {
+            status.textContent = '';
+            return;
+        }
+        if (visibleCourses.length === 0) {
+            status.textContent = '';
+        } else {
+            status.textContent = '"' + activeSearchTerm + '" er jonno ' + visibleCourses.length + ' ta course pawa geche.';
+        }
     }
 
     function renderPlan() {
@@ -408,34 +594,32 @@
         el.textContent = semesterName ? '📌 ' + semesterName : 'Semester name not set yet';
     }
 
-    function escapeHtml(str) {
-        const div = document.createElement('div');
-        div.textContent = str;
-        return div.innerHTML;
-    }
-
-    // ========== Course + Faculty List ==========
+    // ========== Course + Faculty ==========
     function addCourse() {
         const course = document.getElementById('courseName').value.trim();
         const faculty = document.getElementById('facultyName').value.trim();
-        const rating = parseInt(document.getElementById('rating').value, 10);
+        const rating = document.getElementById('rating').value;
 
         if (!course) {
             alert("Please enter a course name");
             return;
         }
 
-        courses.push({ course, faculty, rating });
+        addFacultyToCourses(course, faculty, rating);
         renderCourses();
-        saveAll();
 
         document.getElementById('courseName').value = '';
         document.getElementById('facultyName').value = '';
         document.getElementById('rating').value = '5';
     }
 
-    function deleteCourse(index) {
-        courses.splice(index, 1);
+    function deleteFaculty(groupIndex, facultyIndex) {
+        const group = courses[groupIndex];
+        if (!group) return;
+        group.faculties.splice(facultyIndex, 1);
+        if (group.faculties.length === 0) {
+            courses.splice(groupIndex, 1);
+        }
         renderCourses();
         saveAll();
     }
@@ -444,8 +628,24 @@
         if (courses.length === 0) return;
         if (!confirm('Sob course delete korte chao? Eita undo kora jabe na.')) return;
         courses = [];
+        activeSearchTerm = '';
+        document.getElementById('searchInput').value = '';
         renderCourses();
         saveAll();
+    }
+
+    // ========== Search ==========
+    function searchCourse() {
+        const term = document.getElementById('searchInput').value.trim();
+        activeSearchTerm = term;
+        renderCourses();
+    }
+
+    function clearSearch() {
+        activeSearchTerm = '';
+        document.getElementById('searchInput').value = '';
+        document.getElementById('searchStatus').textContent = '';
+        renderCourses();
     }
 
     // ========== Next Semester ==========
@@ -494,6 +694,11 @@
     renderCourses();
     renderPlan();
     renderSemesterName();
+
+    // allow Enter key to trigger search
+    document.getElementById('searchInput').addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') searchCourse();
+    });
 </script>
 
 </body>
