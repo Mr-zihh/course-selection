@@ -360,6 +360,329 @@
                 align-items: flex-start;
             }
         }
+        /* ===================== ROADMAP / COURSE PLAN TAB ===================== */
+        .roadmap-wrap {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 1.5rem 1.2rem 3rem;
+        }
+
+        .credit-scoreboard-wrap {
+            margin-bottom: 1.5rem;
+        }
+
+        .credit-card {
+            display: flex;
+            align-items: center;
+            gap: 1.1rem;
+            background: white;
+            border: 2px solid #ec4899;
+            border-radius: 16px;
+            padding: 1rem 1.5rem;
+            box-shadow: 0 4px 12px rgba(236,72,153,0.12);
+            max-width: 560px;
+        }
+
+        .credit-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: #ec4899;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .credit-title {
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: #94a3b8;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.45rem;
+        }
+
+        .credit-row {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .credit-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .credit-label {
+            font-size: 0.66rem;
+            font-weight: 700;
+            letter-spacing: 0.03em;
+            margin-bottom: 0.15rem;
+        }
+
+        .credit-label.found { color: #38bdf8; }
+        .credit-label.core { color: #ec4899; }
+        .credit-label.minor { color: #f59e0b; }
+        .credit-label.major { color: #10b981; }
+
+        .credit-value {
+            font-size: 1.35rem;
+            font-weight: 800;
+            color: #1e293b;
+        }
+
+        @media (max-width: 600px) {
+            .credit-card {
+                flex-wrap: wrap;
+            }
+            .credit-row {
+                gap: 1rem;
+            }
+        }
+
+        .roadmap-table-scroll {
+            overflow-x: auto;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+            margin-bottom: 2rem;
+            background: #eef2ff;
+            padding: 0.8rem;
+        }
+
+        table.roadmap-table {
+            border-collapse: separate;
+            border-spacing: 4px;
+            width: 100%;
+            min-width: 900px;
+        }
+
+        table.roadmap-table thead th {
+            background: #1595c9;
+            color: white;
+            padding: 0.8rem;
+            font-size: 0.95rem;
+            border-radius: 6px;
+        }
+
+        table.roadmap-table td {
+            padding: 0;
+            vertical-align: middle;
+        }
+
+        .yr-cell {
+            background: #1595c9;
+            color: white;
+            font-weight: 700;
+            text-align: center;
+            border-radius: 6px;
+            padding: 0.8rem 0.5rem;
+        }
+
+        .sem-cell {
+            background: #dbeafe;
+            color: #1e293b;
+            font-weight: 600;
+            text-align: center;
+            border-radius: 6px;
+            padding: 0.8rem 0.5rem;
+        }
+
+        .credit-cell {
+            background: white;
+            color: #1e293b;
+            font-weight: 600;
+            text-align: center;
+            border-radius: 6px;
+            padding: 0.8rem 0.5rem;
+        }
+
+        .course-cell {
+            border-radius: 6px;
+            padding: 0.75rem 0.6rem;
+            font-size: 0.88rem;
+            font-weight: 600;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.35s ease;
+            position: relative;
+            min-width: 130px;
+        }
+
+        .course-cell.type-core { background: #263445; color: white; }
+        .course-cell.type-teal { background: #2f9e97; color: white; }
+        .course-cell.type-major { background: #a8dab5; color: #1e293b; }
+        .course-cell.type-minor { background: #e2726a; color: white; }
+        .course-cell.type-plain { background: white; color: #1e293b; border: 1px solid #e2e8f0; }
+        .course-cell.type-empty { background: transparent; }
+
+        .course-cell.done {
+            background: #059669 !important;
+            color: white !important;
+            transform: scale(0.97);
+        }
+
+        .course-cell.done::after {
+            content: "✓ Done";
+            display: block;
+            font-size: 0.72rem;
+            font-weight: 700;
+            margin-top: 0.15rem;
+            opacity: 0.95;
+        }
+
+        .course-cell select {
+            width: 100%;
+            border: none;
+            border-radius: 5px;
+            padding: 0.4rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            background: white;
+            color: #1e293b;
+            cursor: pointer;
+        }
+
+        .placeholder-label {
+            font-size: 0.72rem;
+            opacity: 0.85;
+            display: block;
+            margin-top: 0.15rem;
+        }
+
+        .cell-reset {
+            position: absolute;
+            top: 2px;
+            right: 4px;
+            font-size: 0.7rem;
+            background: rgba(255,255,255,0.3);
+            border-radius: 50%;
+            width: 16px;
+            height: 16px;
+            line-height: 16px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .roadmap-side {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.2rem;
+        }
+
+        .group-block {
+            margin-bottom: 1.2rem;
+        }
+
+        .group-block:last-child {
+            margin-bottom: 0;
+        }
+
+        .group-block-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.6rem;
+        }
+
+        .group-block-title {
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: #334155;
+        }
+
+        .group-progress {
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: #64748b;
+            padding: 0.15rem 0.6rem;
+            border-radius: 999px;
+            background: #f1f5f9;
+        }
+
+        .group-progress.complete {
+            background: #dcfce7;
+            color: #15803d;
+        }
+
+        .group-block.complete .group-block-inner {
+            background: #f0fdf4;
+            border-radius: 10px;
+        }
+
+        .elective-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+        }
+
+        .elective-box {
+            flex: 1 1 calc(50% - 0.6rem);
+            min-width: 150px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 0.65rem 0.8rem;
+            cursor: pointer;
+            transition: transform 0.3s ease, background 0.3s ease, opacity 0.3s ease, border-color 0.3s ease;
+        }
+
+        .elective-box .code {
+            font-weight: 700;
+            font-size: 0.88rem;
+            color: #1e293b;
+        }
+
+        .elective-box .name {
+            font-size: 0.75rem;
+            color: #64748b;
+            margin-top: 0.1rem;
+        }
+
+        .elective-box .prereq {
+            font-size: 0.7rem;
+            color: #b45309;
+            margin-top: 0.25rem;
+            font-weight: 600;
+        }
+
+        .elective-box .prereq.prereq-none {
+            color: #94a3b8;
+            font-weight: 500;
+        }
+
+        .elective-box .tag {
+            display: inline-block;
+            margin-top: 0.3rem;
+            font-size: 0.68rem;
+            font-weight: 700;
+            padding: 0.1rem 0.4rem;
+            border-radius: 999px;
+            background: #dbeafe;
+            color: #1d4ed8;
+        }
+
+        .elective-box.done {
+            background: #dcfce7;
+            border-color: #059669;
+        }
+
+        .elective-box.done .code::after {
+            content: " ✓ Done";
+            color: #059669;
+        }
+
+        .elective-box.disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        @media (max-width: 800px) {
+            .roadmap-side {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 <body>
@@ -372,9 +695,10 @@
 <div class="tab-bar">
     <button class="tab-btn active" id="tabBtnCourses" onclick="switchTab('courses')">➕ Add New Course + Faculty</button>
     <button class="tab-btn" id="tabBtnPlan" onclick="switchTab('plan')">📅 Next Semester Plan</button>
+    <button class="tab-btn" id="tabBtnRoadmap" onclick="switchTab('roadmap')">🗺️ Course Plan</button>
 </div>
 
-<div class="container">
+<div class="container" id="containerMain">
 
     <div class="save-note" id="saveNote">Saved ✓</div>
 
@@ -442,6 +766,45 @@
             <div id="planList">
                 <div class="empty">No courses planned for next semester yet.</div>
             </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- ===================== COURSE PLAN (ROADMAP) TAB VIEW ===================== -->
+<div id="viewRoadmap" class="roadmap-wrap" style="display:none;">
+
+    <div id="creditScoreboard" class="credit-scoreboard-wrap"></div>
+
+    <div class="roadmap-table-scroll">
+        <table class="roadmap-table" id="roadmapTable">
+            <thead>
+                <tr>
+                    <th>Year</th>
+                    <th>Semester</th>
+                    <th>Courses</th>
+                    <th>Courses</th>
+                    <th>Courses</th>
+                    <th>Courses</th>
+                    <th>Courses</th>
+                    <th>Credit</th>
+                </tr>
+            </thead>
+            <tbody id="roadmapTbody"></tbody>
+        </table>
+    </div>
+
+    <div class="roadmap-side">
+        <div class="card">
+            <h2><span class="title-text">🎓 Major: MIS [24 Credits]</span></h2>
+            <div class="group-block" id="majorGroupA"></div>
+            <div class="group-block" id="majorGroupB"></div>
+        </div>
+
+        <div class="card">
+            <h2><span class="title-text">📘 Minor: Marketing [15 Credits]</span></h2>
+            <div class="group-block" id="minorGroupA"></div>
+            <div class="group-block" id="minorGroupB"></div>
         </div>
     </div>
 
@@ -741,23 +1104,469 @@
 
     // ========== Tab switching ==========
     function switchTab(tab) {
+        const containerMain = document.getElementById('containerMain');
         const viewCourses = document.getElementById('viewCourses');
         const viewPlan = document.getElementById('viewPlan');
+        const viewRoadmap = document.getElementById('viewRoadmap');
         const btnCourses = document.getElementById('tabBtnCourses');
         const btnPlan = document.getElementById('tabBtnPlan');
+        const btnRoadmap = document.getElementById('tabBtnRoadmap');
+
+        btnCourses.classList.remove('active');
+        btnPlan.classList.remove('active');
+        btnRoadmap.classList.remove('active');
 
         if (tab === 'plan') {
+            containerMain.style.display = 'block';
+            viewRoadmap.style.display = 'none';
             viewCourses.style.display = 'none';
             viewPlan.style.display = 'block';
-            btnCourses.classList.remove('active');
             btnPlan.classList.add('active');
+        } else if (tab === 'roadmap') {
+            containerMain.style.display = 'none';
+            viewRoadmap.style.display = 'block';
+            btnRoadmap.classList.add('active');
+            renderRoadmap();
         } else {
+            containerMain.style.display = 'block';
+            viewRoadmap.style.display = 'none';
             viewCourses.style.display = 'block';
             viewPlan.style.display = 'none';
-            btnPlan.classList.remove('active');
             btnCourses.classList.add('active');
         }
     }
+
+    // ========== ROADMAP / COURSE PLAN ==========
+    const ROADMAP_STORAGE_KEY = 'coursePlanner_roadmapProgress_v1';
+
+    // course code -> full name, for side-panel display
+    const COURSE_FULL_NAMES = {
+        'MIS 401': 'Database Management',
+        'MIS 405': 'MIS and System Analysis',
+        'MIS 430': 'Data Communication and Networking',
+        'MIS 441': 'Accounting Information Systems',
+        'MIS 306': 'Introduction to Programming for Business',
+        'MIS 490': 'Business Data Analytics',
+        'MIS 305': 'Object-Oriented Programming',
+        'MIS 455': 'Web Applications and Internet',
+        'MIS 465': 'E-commerce & Web App.',
+        'MIS 470': 'Decision Support Systems',
+        'MIS 480': 'Knowledge Management Systems',
+        'MKT 302': 'Advanced Marketing Management',
+        'MKT 340': 'Advertising',
+        'MKT 350': 'Service Marketing',
+        'MKT 481': 'Consumer Behavior',
+        'MKT 330': 'Sales Force Management',
+        'MKT 360': 'Marketing Research',
+        'MKT 380': 'Distribution Management',
+        'MKT 401': 'International Marketing',
+        'MKT 450': 'Product and Pricing Policies',
+        'MKT 460': 'Apparel Marketing and Merchandising',
+        'MKT 470': 'Brand Management'
+    };
+
+    // course code -> prerequisite text (empty string = no prerequisite)
+    const COURSE_PREREQUISITES = {
+        'MIS 401': 'CIS 101',
+        'MIS 405': 'MIS 401',
+        'MIS 430': '',
+        'MIS 441': '',
+        'MIS 306': '',
+        'MIS 490': 'MIS 102, MIS 341, MIS 442, MIS 401',
+        'MIS 305': '',
+        'MIS 455': '',
+        'MIS 465': '',
+        'MIS 470': '',
+        'MIS 480': '',
+        'MKT 201': '',
+        'MKT 302': 'MKT 201',
+        'MKT 340': 'MKT 201, MKT 302',
+        'MKT 350': 'MKT 201, MKT 302',
+        'MKT 481': 'MKT 201, MKT 340',
+        'MKT 330': 'MKT 201, MKT 302',
+        'MKT 360': 'MKT 201, MAT 211',
+        'MKT 380': 'MKT 201',
+        'MKT 401': 'MKT 201, MKT 302',
+        'MKT 450': '',
+        'MKT 460': 'MKT 201',
+        'MKT 470': 'MKT 340'
+    };
+
+    function prereqLine(code) {
+        const p = COURSE_PREREQUISITES[code];
+        if (p === undefined) return '';
+        return p ? `<div class="prereq">Prerequisite: ${p}</div>` : `<div class="prereq prereq-none">Prerequisite: None</div>`;
+    }
+
+    const MAJOR_GROUP_A = ['MIS 401', 'MIS 405', 'MIS 430', 'MIS 441', 'MIS 306', 'MIS 490'];
+    const MAJOR_GROUP_B_POOL = ['MIS 305', 'MIS 455', 'MIS 465', 'MIS 470', 'MIS 480'];
+    const MINOR_GROUP_A = ['MKT 302', 'MKT 340', 'MKT 350', 'MKT 481'];
+    const MINOR_GROUP_B_POOL = ['MKT 330', 'MKT 360', 'MKT 380', 'MKT 401', 'MKT 450', 'MKT 460', 'MKT 470'];
+
+    // Minor-I..IV are always these fixed courses (already decided earlier)
+    const MINOR_FIXED_MAP = { MINOR_I: 'MKT 302', MINOR_II: 'MKT 340', MINOR_III: 'MKT 350', MINOR_IV: 'MKT 481' };
+
+    // The table rows exactly matching the roadmap image
+    const ROADMAP_ROWS = [
+        { year: '1st Year', rowspan: 3, sem: '1st', credit: 13, cells: [
+            { code: 'Communication_Skill-I', type: 'core' }, { code: 'Numeracy I', type: 'core' },
+            { code: 'Computer Skills', type: 'core' }, { code: 'SocialSci-I', type: 'core' }
+        ]},
+        { sem: '2nd', credit: 12, cells: [
+            { code: 'Communication_Skill-II', type: 'core' }, { code: 'Numeracy II', type: 'core' },
+            { code: 'NaturSci-I', type: 'core' }, { code: 'ECN 201', type: 'teal' }
+        ]},
+        { sem: '3rd', credit: 12, cells: [
+            { code: 'Communication_Skill-III', type: 'core' }, { code: 'NaturSci-II', type: 'core' },
+            { code: 'BUS 201', type: 'teal' }, { code: 'ACN 201', type: 'teal' }
+        ]},
+        { year: '2nd Year', rowspan: 3, sem: '1st', credit: 15, cells: [
+            { code: 'MGT 201', type: 'teal' }, { code: 'HUM-I(Bangladesh)', type: 'core' },
+            { code: 'MKT 201', type: 'teal' }, { code: 'LFE 201', type: 'core' }, { code: 'MIS 102', type: 'plain' }
+        ]},
+        { sem: '2nd', credit: 12, cells: [
+            { code: 'HUM-I(Bangladesh)', type: 'core' }, { code: 'BUS 202', type: 'teal' },
+            { code: 'INB 301', type: 'teal' }, { code: 'MIS 341', type: 'plain' }
+        ]},
+        { sem: '3rd', credit: 12, cells: [
+            { code: 'ECN202', type: 'teal' }, { code: 'FIN 201', type: 'teal' },
+            { code: 'MINOR_I', type: 'minor', placeholder: true, label: 'Minor-I' }, { code: 'BUS 360', type: 'teal' }
+        ]},
+        { year: '3rd Year', rowspan: 3, sem: '1st', credit: 12, cells: [
+            { code: 'MIS 401', type: 'major' },
+            { code: 'MINOR_II', type: 'minor', placeholder: true, label: 'Minor-II' },
+            { code: 'MINOR_III', type: 'minor', placeholder: true, label: 'Minor-III' },
+            { code: 'MGT 330', type: 'teal' }
+        ]},
+        { sem: '2nd', credit: 12, cells: [
+            { code: 'MIS 405', type: 'major' }, { code: 'MIS 430', type: 'major' },
+            { code: 'MINOR_IV', type: 'minor', placeholder: true, label: 'Minor-IV' },
+            { code: 'MIS 442', type: 'teal' }
+        ]},
+        { sem: '3rd', credit: 12, cells: [
+            { code: 'MIS 441', type: 'major' }, { code: 'MGT 490', type: 'teal' },
+            { code: 'MINOR_V', type: 'minor', placeholder: true, label: 'Minor-V', chooser: true, pool: MINOR_GROUP_B_POOL },
+            { code: 'MAJORB_I', type: 'major', placeholder: true, label: 'Major Group B I', chooser: true, pool: MAJOR_GROUP_B_POOL }
+        ]},
+        { year: '4th Year', rowspan: 2, sem: '1st', credit: 6, cells: [
+            { code: 'BUS 485', type: 'teal' },
+            { code: 'MAJORB_II', type: 'major', placeholder: true, label: 'Major Group B II', chooser: true, pool: MAJOR_GROUP_B_POOL }
+        ]},
+        { sem: '2nd', credit: 6, cells: [
+            { code: 'Internship-BBA 499', type: 'teal' }
+        ]}
+    ];
+
+    // ---- state ----
+    let doneCourses = new Set();
+    let assignments = { MINOR_V: null, MAJORB_I: null, MAJORB_II: null };
+
+    function loadRoadmapState() {
+        try {
+            const raw = localStorage.getItem(ROADMAP_STORAGE_KEY);
+            if (raw) {
+                const parsed = JSON.parse(raw);
+                doneCourses = new Set(parsed.doneCourses || []);
+                assignments = Object.assign({ MINOR_V: null, MAJORB_I: null, MAJORB_II: null }, parsed.assignments || {});
+            }
+        } catch (e) {
+            console.error('Could not load roadmap state:', e);
+        }
+    }
+
+    function saveRoadmapState() {
+        try {
+            localStorage.setItem(ROADMAP_STORAGE_KEY, JSON.stringify({
+                doneCourses: Array.from(doneCourses),
+                assignments: assignments
+            }));
+            flashSaved();
+        } catch (e) {
+            console.error('Could not save roadmap state:', e);
+        }
+    }
+
+    function resolveCode(cell) {
+        // resolves a table cell's placeholder key into the actual course code (or null if unassigned/fixed-minor)
+        if (MINOR_FIXED_MAP[cell.code]) return MINOR_FIXED_MAP[cell.code];
+        if (cell.chooser) return assignments[cell.code] || null;
+        return cell.code;
+    }
+
+    function toggleDone(code) {
+        if (!code) return;
+        if (doneCourses.has(code)) {
+            doneCourses.delete(code);
+        } else {
+            doneCourses.add(code);
+        }
+        saveRoadmapState();
+        renderRoadmap();
+    }
+
+    function assignChooser(slotKey, chosenCode) {
+        assignments[slotKey] = chosenCode || null;
+        saveRoadmapState();
+        renderRoadmap();
+    }
+
+    function resetChooser(slotKey) {
+        const code = assignments[slotKey];
+        if (code) doneCourses.delete(code);
+        assignments[slotKey] = null;
+        saveRoadmapState();
+        renderRoadmap();
+    }
+
+    // click on an elective box in the side panel: auto-assign to next empty slot (if unassigned) then toggle done
+    function clickElective(code, poolType) {
+        let slotKeys, pool;
+        if (poolType === 'major') {
+            slotKeys = ['MAJORB_I', 'MAJORB_II'];
+            pool = MAJOR_GROUP_B_POOL;
+        } else {
+            slotKeys = ['MINOR_V'];
+            pool = MINOR_GROUP_B_POOL;
+        }
+
+        const isAssigned = slotKeys.some(k => assignments[k] === code);
+
+        if (isAssigned) {
+            // already placed -> just toggle done
+            toggleDone(code);
+            return;
+        }
+
+        // find an empty slot
+        const emptySlot = slotKeys.find(k => !assignments[k]);
+        if (!emptySlot) {
+            alert('Ei group-er slot already full. Age ekta bad diye tarpor notun ta select koro.');
+            return;
+        }
+
+        assignments[emptySlot] = code;
+        doneCourses.add(code);
+        saveRoadmapState();
+        renderRoadmap();
+    }
+
+    function renderRoadmapTable() {
+        const tbody = document.getElementById('roadmapTbody');
+        tbody.innerHTML = '';
+
+        ROADMAP_ROWS.forEach(row => {
+            const tr = document.createElement('tr');
+
+            if (row.year) {
+                const yearTd = document.createElement('td');
+                yearTd.className = 'yr-cell';
+                yearTd.rowSpan = row.rowspan;
+                yearTd.textContent = row.year;
+                tr.appendChild(yearTd);
+            }
+
+            const semTd = document.createElement('td');
+            semTd.className = 'sem-cell';
+            semTd.textContent = row.sem;
+            tr.appendChild(semTd);
+
+            for (let i = 0; i < 5; i++) {
+                const cellTd = document.createElement('td');
+                const cell = row.cells[i];
+
+                if (!cell) {
+                    cellTd.className = 'course-cell type-empty';
+                    tr.appendChild(cellTd);
+                    continue;
+                }
+
+                const resolved = resolveCode(cell);
+                const isDone = resolved && doneCourses.has(resolved);
+                cellTd.className = 'course-cell type-' + cell.type + (isDone ? ' done' : '');
+
+                if (cell.chooser && !assignments[cell.code]) {
+                    // unassigned chooser slot -> dropdown
+                    const usedElsewhere = cell.code === 'MAJORB_II' ? assignments.MAJORB_I : (cell.code === 'MAJORB_I' ? assignments.MAJORB_II : null);
+                    let optionsHtml = '<option value="">' + cell.label + '</option>';
+                    cell.pool.forEach(optCode => {
+                        if (optCode === usedElsewhere) return;
+                        optionsHtml += `<option value="${optCode}">${optCode}</option>`;
+                    });
+                    cellTd.innerHTML = `<select onchange="assignChooser('${cell.code}', this.value)">${optionsHtml}</select>`;
+                } else if (cell.placeholder && !resolved) {
+                    // fixed minor slot theoretically always resolved, but just in case
+                    cellTd.textContent = cell.label;
+                } else {
+                    cellTd.innerHTML = resolved + (isDone ? '' : '');
+                    cellTd.onclick = () => toggleDone(resolved);
+                    const pr = COURSE_PREREQUISITES[resolved];
+                    if (pr !== undefined) {
+                        cellTd.title = 'Prerequisite: ' + (pr || 'None');
+                    }
+                    if (cell.chooser) {
+                        const resetBtn = document.createElement('span');
+                        resetBtn.className = 'cell-reset';
+                        resetBtn.textContent = '↺';
+                        resetBtn.title = 'Change selection';
+                        resetBtn.onclick = (e) => { e.stopPropagation(); resetChooser(cell.code); };
+                        cellTd.appendChild(resetBtn);
+                    }
+                }
+
+                tr.appendChild(cellTd);
+            }
+
+            const creditTd = document.createElement('td');
+            creditTd.className = 'credit-cell';
+            creditTd.textContent = row.credit;
+            tr.appendChild(creditTd);
+
+            tbody.appendChild(tr);
+        });
+    }
+
+    function renderGroupFixed(containerId, title, codes) {
+        const container = document.getElementById(containerId);
+        const doneCount = codes.filter(c => doneCourses.has(c)).length;
+        const complete = doneCount === codes.length;
+
+        let boxesHtml = '';
+        // FLIP-friendly: not-done first, done after (visual reorder)
+        const sorted = [...codes].sort((a, b) => (doneCourses.has(a) ? 1 : 0) - (doneCourses.has(b) ? 1 : 0));
+        sorted.forEach(code => {
+            const isDone = doneCourses.has(code);
+            boxesHtml += `
+                <div class="elective-box${isDone ? ' done' : ''}" onclick="toggleDone('${code}')">
+                    <div class="code">${code}</div>
+                    <div class="name">${COURSE_FULL_NAMES[code] || ''}</div>
+                    ${prereqLine(code)}
+                </div>
+            `;
+        });
+
+        container.innerHTML = `
+            <div class="group-block-header">
+                <div class="group-block-title">${title}</div>
+                <div class="group-progress${complete ? ' complete' : ''}">${complete ? '✅ Complete' : doneCount + '/' + codes.length + ' done'}</div>
+            </div>
+            <div class="elective-list">${boxesHtml}</div>
+        `;
+        container.classList.toggle('complete', complete);
+    }
+
+    function renderGroupElective(containerId, title, pool, slotKeys, poolType) {
+        const container = document.getElementById(containerId);
+        const chosen = slotKeys.map(k => assignments[k]).filter(Boolean);
+        const doneCount = chosen.filter(c => doneCourses.has(c)).length;
+        const quotaFull = chosen.length >= slotKeys.length;
+        const complete = chosen.length === slotKeys.length && doneCount === slotKeys.length;
+
+        let boxesHtml = '';
+        // order: chosen (done sorted last within chosen too) first, then remaining not-chosen
+        const chosenSorted = [...chosen].sort((a, b) => (doneCourses.has(a) ? 1 : 0) - (doneCourses.has(b) ? 1 : 0));
+        const notChosen = pool.filter(c => !chosen.includes(c));
+
+        chosenSorted.forEach(code => {
+            const isDone = doneCourses.has(code);
+            const slotKey = slotKeys.find(k => assignments[k] === code);
+            const tagLabel = slotKey === 'MAJORB_I' ? 'Major Group B I' : slotKey === 'MAJORB_II' ? 'Major Group B II' : 'Minor-V';
+            boxesHtml += `
+                <div class="elective-box${isDone ? ' done' : ''}" onclick="clickElective('${code}', '${poolType}')">
+                    <div class="code">${code}</div>
+                    <div class="name">${COURSE_FULL_NAMES[code] || ''}</div>
+                    ${prereqLine(code)}
+                    <span class="tag">${tagLabel}</span>
+                </div>
+            `;
+        });
+
+        notChosen.forEach(code => {
+            const disabled = quotaFull;
+            boxesHtml += `
+                <div class="elective-box${disabled ? ' disabled' : ''}" onclick="${disabled ? '' : `clickElective('${code}', '${poolType}')`}">
+                    <div class="code">${code}</div>
+                    <div class="name">${COURSE_FULL_NAMES[code] || ''}</div>
+                    ${prereqLine(code)}
+                </div>
+            `;
+        });
+
+        container.innerHTML = `
+            <div class="group-block-header">
+                <div class="group-block-title">${title}</div>
+                <div class="group-progress${complete ? ' complete' : ''}">${complete ? '✅ Complete' : doneCount + '/' + slotKeys.length + ' done'}</div>
+            </div>
+            <div class="elective-list">${boxesHtml}</div>
+        `;
+        container.classList.toggle('complete', complete);
+    }
+
+    // ---- Credit scoreboard ----
+    const FOUNDATION_CODES = ['Communication_Skill-I', 'Communication_Skill-II', 'Communication_Skill-III',
+        'Numeracy I', 'Numeracy II', 'Computer Skills', 'SocialSci-I', 'NaturSci-I', 'NaturSci-II',
+        'HUM-I(Bangladesh)', 'LFE 201'];
+
+    const CORE_CODES = ['ECN 201', 'BUS 201', 'ACN 201', 'MGT 201', 'BUS 202', 'INB 301', 'MIS 341',
+        'ECN202', 'FIN 201', 'BUS 360', 'MGT 330', 'MIS 442', 'MGT 490', 'BUS 485',
+        'Internship-BBA 499', 'MIS 102'];
+
+    function creditFor(code) {
+        if (code === 'Computer Skills') return 4;
+        if (code === 'Internship-BBA 499') return 6;
+        return 3;
+    }
+
+    function computeCreditTotals() {
+        const totals = { foundation: 0, core: 0, minor: 0, major: 0 };
+        FOUNDATION_CODES.forEach(c => { if (doneCourses.has(c)) totals.foundation += creditFor(c); });
+        CORE_CODES.forEach(c => { if (doneCourses.has(c)) totals.core += creditFor(c); });
+        MAJOR_GROUP_A.concat(MAJOR_GROUP_B_POOL).forEach(c => { if (doneCourses.has(c)) totals.major += creditFor(c); });
+        MINOR_GROUP_A.concat(MINOR_GROUP_B_POOL).forEach(c => { if (doneCourses.has(c)) totals.minor += creditFor(c); });
+        return totals;
+    }
+
+    function renderCreditScoreboard() {
+        const t = computeCreditTotals();
+        const total = t.foundation + t.core + t.minor + t.major;
+        const el = document.getElementById('creditScoreboard');
+        el.innerHTML = `
+            <div class="credit-card">
+                <div class="credit-icon">◐</div>
+                <div>
+                    <div class="credit-title">COMPLETED CREDIT — ${total}</div>
+                    <div class="credit-row">
+                        <div class="credit-item">
+                            <div class="credit-label found">FOUNDATION</div>
+                            <div class="credit-value">${t.foundation}</div>
+                        </div>
+                        <div class="credit-item">
+                            <div class="credit-label core">CORE</div>
+                            <div class="credit-value">${t.core}</div>
+                        </div>
+                        <div class="credit-item">
+                            <div class="credit-label minor">MINOR</div>
+                            <div class="credit-value">${t.minor}</div>
+                        </div>
+                        <div class="credit-item">
+                            <div class="credit-label major">MAJOR</div>
+                            <div class="credit-value">${t.major}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+
+    function renderRoadmap() {
+        renderCreditScoreboard();
+        renderRoadmapTable();
+        renderGroupFixed('majorGroupA', 'Group A – Compulsory (18 Credits)', MAJOR_GROUP_A);
+        renderGroupElective('majorGroupB', 'Group B – Any 2 of 5 (6 Credits)', MAJOR_GROUP_B_POOL, ['MAJORB_I', 'MAJORB_II'], 'major');
+        renderGroupFixed('minorGroupA', 'Group A – Compulsory (12 Credits)', MINOR_GROUP_A);
+        renderGroupElective('minorGroupB', 'Group B – Any 1 of 7 (3 Credits)', MINOR_GROUP_B_POOL, ['MINOR_V'], 'minor');
+    }
+
+    loadRoadmapState();
 
     // ========== Init ==========
     loadAll();
