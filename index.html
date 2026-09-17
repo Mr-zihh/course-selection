@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My University Course Planner</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+        }
+
+        body {
+            background: #f1f5f9;
+            color: #1e293b;
+            line-height: 1.5;
+        }
+
+        header {
+            background: #0f172a;
+            color: white;
+            padding: 1.2rem 2rem;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 1.6rem;
+            font-weight: 700;
+        }
+
+        header p {
+            opacity: 0.8;
+            font-size: 0.95rem;
+            margin-top: 0.3rem;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem 1.2rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+            border: 1px solid #e2e8f0;
+        }
+
+        .card h2 {
+            font-size: 1.3rem;
+            margin-bottom: 1.2rem;
+            color: #0f172a;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .form-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            margin-bottom: 1rem;
+        }
+
+        input, select {
+            padding: 0.7rem 1rem;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            outline: none;
+            transition: border 0.2s;
+        }
+
+        input:focus, select:focus {
+            border-color: #38bdf8;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            min-width: 180px;
+        }
+
+        select {
+            min-width: 110px;
+        }
+
+        button {
+            padding: 0.7rem 1.3rem;
+            background: #0f172a;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        button:hover {
+            background: #1e293b;
+        }
+
+        .btn-green {
+            background: #059669;
+        }
+
+        .btn-green:hover {
+            background: #047857;
+        }
+
+        .btn-red {
+            background: #dc2626;
+            padding: 0.4rem 0.8rem;
+            font-size: 0.85rem;
+        }
+
+        .btn-red:hover {
+            background: #b91c1c;
+        }
+
+        /* Course List */
+        .course-item {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 1rem 1.2rem;
+            margin-bottom: 0.8rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+        }
+
+        .course-info {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .course-name {
+            font-weight: 600;
+            font-size: 1.05rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .faculty-name {
+            color: #475569;
+            font-size: 0.9rem;
+        }
+
+        .stars {
+            color: #f59e0b;
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+        }
+
+        .empty {
+            text-align: center;
+            color: #94a3b8;
+            padding: 1.5rem;
+            font-style: italic;
+        }
+
+        /* Next Semester Section */
+        #semesterName {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #0f172a;
+        }
+
+        .semester-header {
+            display: flex;
+            gap: 0.8rem;
+            margin-bottom: 1.2rem;
+            flex-wrap: wrap;
+        }
+
+        footer {
+            text-align: center;
+            padding: 1.5rem;
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 600px) {
+            .form-row {
+                flex-direction: column;
+            }
+            input, select, button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>My University Course Planner</h1>
+    <p>Manually add courses • Faculty names • Star ratings • Next semester plan</p>
+</header>
+
+<div class="container">
+
+    <!-- ===================== ADD COURSE SECTION ===================== -->
+    <div class="card">
+        <h2>➕ Add New Course + Faculty</h2>
+
+        <div class="form-row">
+            <input type="text" id="courseName" placeholder="Course name (e.g. Data Structures)">
+            <input type="text" id="facultyName" placeholder="Faculty name (e.g. Dr. Rahman)">
+            <select id="rating">
+                <option value="5">★★★★★ (Best / Easy)</option>
+                <option value="4">★★★★☆ (Very Good)</option>
+                <option value="3">★★★☆☆ (Average)</option>
+                <option value="2">★★☆☆☆ (Hard)</option>
+                <option value="1">★☆☆☆☆ (Avoid)</option>
+            </select>
+            <button onclick="addCourse()">Add Course</button>
+        </div>
+
+        <div id="courseList">
+            <div class="empty">No courses added yet. Type above and click "Add Course".</div>
+        </div>
+    </div>
+
+    <!-- ===================== NEXT SEMESTER SECTION ===================== -->
+    <div class="card">
+        <h2>📅 Next Semester Plan</h2>
+
+        <div class="semester-header">
+            <input type="text" id="semNameInput" placeholder="Semester name (e.g. Spring 2027 / 5th Semester)" style="flex:1;">
+            <button class="btn-green" onclick="setSemesterName()">Set Semester Name</button>
+        </div>
+
+        <div id="semesterName">Semester name not set yet</div>
+
+        <div class="form-row">
+            <input type="text" id="planCourse" placeholder="Course name to take next semester">
+            <button class="btn-green" onclick="addToPlan()">Add to Next Semester</button>
+        </div>
+
+        <div id="planList">
+            <div class="empty">No courses planned for next semester yet.</div>
+        </div>
+    </div>
+
+</div>
+
+<footer>
+    Personal Course Planner • Data is saved only in this browser (refresh will clear)
+</footer>
+
+<script>
+    // ========== Course + Faculty List ==========
+    function addCourse() {
+        const course = document.getElementById('courseName').value.trim();
+        const faculty = document.getElementById('facultyName').value.trim();
+        const rating = document.getElementById('rating').value;
+
+        if (!course) {
+            alert("Please enter a course name");
+            return;
+        }
+
+        const list = document.getElementById('courseList');
+
+        // Remove empty message
+        if (list.querySelector('.empty')) {
+            list.innerHTML = '';
+        }
+
+        // Create stars
+        let stars = '';
+        for (let i = 1; i <= 5; i++) {
+            stars += i <= rating ? '★' : '☆';
+        }
+
+        const item = document.createElement('div');
+        item.className = 'course-item';
+        item.innerHTML = `
+            <div class="course-info">
+                <div class="course-name">${course}</div>
+                <div class="faculty-name">Faculty: ${faculty || 'Not specified'}</div>
+            </div>
+            <div class="stars">${stars}</div>
+            <button class="btn-red" onclick="this.parentElement.remove()">Delete</button>
+        `;
+
+        list.appendChild(item);
+
+        // Clear inputs
+        document.getElementById('courseName').value = '';
+        document.getElementById('facultyName').value = '';
+        document.getElementById('rating').value = '5';
+    }
+
+    // ========== Next Semester ==========
+    function setSemesterName() {
+        const name = document.getElementById('semNameInput').value.trim();
+        if (!name) {
+            alert("Please enter a semester name");
+            return;
+        }
+        document.getElementById('semesterName').textContent = "📌 " + name;
+        document.getElementById('semNameInput').value = '';
+    }
+
+    function addToPlan() {
+        const course = document.getElementById('planCourse').value.trim();
+        if (!course) {
+            alert("Please enter a course name");
+            return;
+        }
+
+        const list = document.getElementById('planList');
+
+        if (list.querySelector('.empty')) {
+            list.innerHTML = '';
+        }
+
+        const item = document.createElement('div');
+        item.className = 'course-item';
+        item.innerHTML = `
+            <div class="course-info">
+                <div class="course-name">${course}</div>
+            </div>
+            <button class="btn-red" onclick="this.parentElement.remove()">Remove</button>
+        `;
+
+        list.appendChild(item);
+        document.getElementById('planCourse').value = '';
+    }
+</script>
+
+</body>
+</html>
